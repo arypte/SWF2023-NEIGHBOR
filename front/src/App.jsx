@@ -30,10 +30,10 @@ function App() {
               <Route path="/register" element={<Register />} />
               <Route path="/main" element={<Main />} />
               <Route path="/list" element={<List />} />
-              <Routh path="/mint" element={<Mint />} />
-              <Routh path="/nftdetail" element={<NftDetail />} />
-              <Routh path="/event" element={<Event />} />
-              <Routh path="/adminpage" element={<AdminPage/> } />
+              <Route path="/mint" element={<Mint />} />
+              <Route path="/nftdetail" element={<NftDetail />} />
+              <Route path="/event" element={<Event />} />
+              <Route path="/adminpage" element={<AdminPage />} />
             </Routes>
             {account && <Footer />}
           </div>
