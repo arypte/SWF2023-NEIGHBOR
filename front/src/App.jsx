@@ -6,7 +6,7 @@ import StatusBar from "./components/StatusBar";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Main from "./pages/Main";
-import Testpage from "./pages/testpage";
+import Testpage from "./pages/Testpage";
 
 export const AppContext = createContext();
 

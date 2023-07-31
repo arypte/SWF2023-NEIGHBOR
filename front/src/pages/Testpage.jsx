@@ -1,28 +1,22 @@
 import React, { ChangeEvent, FormEvent, useEffect, useState } from 'react';
 import axios from 'axios';
 
-import BackButton from '@/components/BackButton';
-import { contract } from '@/lib/web3.config';
-import { useAppState } from '@/lib/AppContext';
-import MintSuccessModal from '@/components/MintSuccessModal';
-
 const Testpage = () => {
   const [imageFile, setImageFile] = useState<File | null>(null);
-  const [name, setName] = useState<string>('');
-  const [description, setDescription] = useState<string>('');
-  const [jsonHash, setJsonHash] = useState<string>('');
-  const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [isOpenModal, setIsOpenModal] = useState<boolean>(false);
+  const [name, setName] = useState('');
+  const [description, setDescription] = useState('');
+  const [jsonHash, setJsonHash] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
+  const [isOpenModal, setIsOpenModal] = useState(false);
 
-  const { account } = useAppState();
 
-  const onChangeImageFile = (e: ChangeEvent<HTMLInputElement>) => {
+  const onChangeImageFile = (e) => {
     if (!e.target.files) return;
 
     setImageFile(e.target.files[0]);
   };
 
-  const onSubmitIpfs = async (e: FormEvent<HTMLFormElement>) => {
+  const onSubmitIpfs = async (e) => {
     try {
       e.preventDefault();
 
@@ -112,18 +106,17 @@ const Testpage = () => {
 
   const onClickMint = async () => {
     try {
-      if (!account) return;
 
       setIsLoading(true);
 
-      const res = await contract.methods
-        .mintNft(
-          // @ts-expect-error
-          `${process.env.NEXT_PUBLIC_PINATA_URL}/${jsonHash}`
-        )
-        .send({ from: account });
+      // const res = await contract.methods
+      //   .mintNft(
+      //     // @ts-expect-error
+      //     `${process.env.NEXT_PUBLIC_PINATA_URL}/${jsonHash}`
+      //   )
+      //   .send({ from: account });
 
-      if (Number(res.status) !== 1) return;
+      // if (Number(res.status) !== 1) return;
 
       setIsLoading(false);
       setIsOpenModal(true);
@@ -140,8 +133,7 @@ const Testpage = () => {
         <div className="text-3xl">Loading...</div>
       ) : (
         <>
-          <BackButton href="/" pageName="Back" />
-
+         
           {jsonHash ? (
             <div className="flex flex-col gap-4 items-center">
               <div className="text-2xl">IPFS upload is successful.</div>
@@ -177,7 +169,7 @@ const Testpage = () => {
           )}
         </>
       )}
-      {isOpenModal && <MintSuccessModal />}
+      
     </>
   );
 };
