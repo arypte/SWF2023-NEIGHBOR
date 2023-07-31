@@ -6,7 +6,6 @@ import StatusBar from "./components/StatusBar";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Main from "./pages/Main";
-import Testpage from "./pages/Testpage";
 
 export const AppContext = createContext();
 
@@ -26,7 +25,7 @@ function App() {
               <Route path="/login" element={<Login />} />
               <Route path="/register" element={<Register />} />
               <Route path="/main" element={<Main />} />
-              <Route path="/test" element={<Testpage/>} />
+              
             </Routes>
           </div>
         </BrowserRouter>
