@@ -14,7 +14,7 @@ const idx = sp.get( 'id' ) ;
 
 const getData = async() => {
     try {
-    const URL = await token_c.methods.tokenURI(0).call() ;
+    const URL = await token_c.methods.tokenURI(idx).call() ;
     const response = await axios.get( URL ) ;
     setData( response.data ) ;
     } catch (error) {
