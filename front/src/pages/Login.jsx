@@ -1,9 +1,10 @@
 import React, { useContext, useEffect, useState } from "react";
 import { AppContext } from "../App";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const Login = () => {
   const { account, setAccount } = useContext(AppContext);
+  const navigate = useNavigate();
 
   const onClickAccount = async () => {
     try {
@@ -17,16 +18,15 @@ const Login = () => {
     }
   };
 
-  const onClickLogOut = () => {
-    setAccount("");
-  };
-
   useEffect(() => {
     console.log(account);
-  });
+    if (account !== "") {
+      navigate(`/main?address=${account}`);
+    }
+  }, [account]);
 
   return (
-    <div className="bg-blue-300 min-h-screen flex flex-col items-center">
+    <div className="min-h-screen flex flex-col items-center">
       <img
         className="bg-red-300 w-[300px] h-[450px] mt-20"
         src=""
@@ -38,14 +38,12 @@ const Login = () => {
             Register
           </button>
         </Link>
-        <Link to="/main">
-          <button
-            onClick={onClickAccount}
-            className="bg-white text-black w-[140px] py-4 mt-5 rounded-full hover:bg-neutral-300"
-          >
-            Login
-          </button>
-        </Link>
+        <button
+          onClick={onClickAccount}
+          className="bg-neutral-200 text-black w-[140px] py-4 mt-5 rounded-full hover:bg-neutral-300"
+        >
+          Login
+        </button>
       </div>
     </div>
   );

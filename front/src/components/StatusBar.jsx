@@ -25,7 +25,7 @@ const StatusBar = () => {
   }, []);
 
   return (
-    <div className="navigation-bar" id="navbar">
+    <div className="navigation-bar border-b border-zinc-200" id="navbar">
       <div className="time">{time}</div>
       <div className="status-icons">
         <FaSignal className="icon" />
