@@ -12,7 +12,7 @@ export const AppContext = createContext();
 function App() {
   const [account, setAccount] = useState();
 
-  const location = useLocation();
+  // const location = useLocation();
 
   return (
     <div>
