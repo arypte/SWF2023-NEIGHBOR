@@ -8,6 +8,10 @@ import Register from "./pages/Register";
 import Main from "./pages/Main";
 import Footer from "./components/Footer";
 import List from "./pages/List";
+import Mint from "./pages/Mint";
+import NftDetail from "./pages/NftDetail";
+import Event from "./pages/Event";
+import AdminPage from "./pages/Adminpage";
 
 export const AppContext = createContext();
 
@@ -26,6 +30,10 @@ function App() {
               <Route path="/register" element={<Register />} />
               <Route path="/main" element={<Main />} />
               <Route path="/list" element={<List />} />
+              <Routh path="/mint" element={<Mint />} />
+              <Routh path="/nftdetail" element={<NftDetail />} />
+              <Routh path="/event" element={<Event />} />
+              <Routh path="/adminpage" element={<AdminPage/> } />
             </Routes>
             {account && <Footer />}
           </div>
