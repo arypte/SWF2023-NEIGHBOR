@@ -15,12 +15,12 @@ const Event = () => {
       setResult("");
       setContent(e.target.elements.chat.value);
       console.log('!', content);
-      console.log('!!',process.env.REACT_APP_BACKEND_URL);
+      console.log('!!',process.env.REACT_APP_GPT_URL);
 
       setIsLoading(true);
 
       const response = await axios.post(
-        `${process.env.REACT_APP_BACKEND_URL}/chat`,
+        `${process.env.REACT_APP_GPT_URL}/chat`,
         {
           content: `이 " '${content}' " 영어 이름을 한글 발음으로 적어줘. 아름 뒤에 (Tom) 같은 설명 붙이지마. :한국 이름:과 같은의 형식으로 만 표시해줘 . 예시 :톰:,:토니:,:자스민: 등.  `,
         },
