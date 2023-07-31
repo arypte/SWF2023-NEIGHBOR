@@ -2,59 +2,28 @@ import React, { ChangeEvent, FormEvent, useEffect, useState } from 'react';
 import axios from 'axios';
 
 const Testpage = () => {
-  const [imageFile, setImageFile] = useState<File | null>(null);
   const [name, setName] = useState('');
   const [description, setDescription] = useState('');
   const [jsonHash, setJsonHash] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-  const [isOpenModal, setIsOpenModal] = useState(false);
-
-
-  const onChangeImageFile = (e) => {
-    if (!e.target.files) return;
-
-    setImageFile(e.target.files[0]);
-  };
 
   const onSubmitIpfs = async (e) => {
     try {
       e.preventDefault();
 
-      if (!imageFile || !name || !description) return;
+      if ( !name || !description) return;
 
       setIsLoading(true);
-
-      const imageFormData = new FormData();
-      imageFormData.append('file', imageFile);
-      imageFormData.append(
-        'pinataMetadata',
-        JSON.stringify({
-          name: `${name}_image`,
-        })
-      );
-      imageFormData.append(
-        'pinataOptions',
-        JSON.stringify({
-          cidVersion: 0,
-        })
-      );
-
-      const imageRes = await axios.post(
-        'https://api.pinata.cloud/pinning/pinFileToIPFS',
-        imageFormData,
-        {
-          headers: {
-            'Content-Type': 'multipart/form-data',
-            Authorization: `Bearer ${process.env.NEXT_PUBLIC_PINATA_KEY}`,
-          },
-        }
-      );
+      console.log('a');
 
       const jsonData = {
         name,
         description,
-        image: '',
+        image: 'https://github.com/team-codeplay-project/images/blob/main/image1.png?raw=true',
+        // image: `${process.env.NEXT_PUBLIC_PINATA_URL}/${imageRes.data.IpfsHash}`
       };
+
+      console.log('aa');
 
       // Create a JSON Blob from the JSON data
       const jsonBlob = new Blob([JSON.stringify(jsonData)], {
@@ -81,13 +50,14 @@ const Testpage = () => {
         })
       );
 
+      console.log('aaa');
       const jsonRes = await axios.post(
         'https://api.pinata.cloud/pinning/pinFileToIPFS',
         formData,
         {
           headers: {
             'Content-Type': 'multipart/form-data',
-            Authorization: `Bearer ${process.env.NEXT_PUBLIC_PINATA_KEY}`,
+            Authorization: `Bearer ${process.env.REACT_APP_PINATA_KEY}`,
           },
         }
       );
@@ -95,11 +65,11 @@ const Testpage = () => {
       if (jsonRes.status !== 200) return;
 
       setJsonHash(jsonRes.data.IpfsHash);
+      console.log( jsonRes.data.IpfsHash);
 
       setIsLoading(false);
     } catch (error) {
       console.error(error);
-
       setIsLoading(false);
     }
   };
@@ -119,13 +89,16 @@ const Testpage = () => {
       // if (Number(res.status) !== 1) return;
 
       setIsLoading(false);
-      setIsOpenModal(true);
     } catch (error) {
       console.error(error);
 
       setIsLoading(false);
     }
   };
+
+  useEffect( () => {
+    console.log( process.env.REACT_APP_PINATA_KEY );
+  } ,[] ) ;
 
   return (
     <>
@@ -143,15 +116,6 @@ const Testpage = () => {
             </div>
           ) : (
             <form className="flex flex-col gap-4" onSubmit={onSubmitIpfs}>
-              <label className="btn-style text-center truncate px-2" htmlFor="imageFile">
-                {imageFile ? imageFile.name : 'Choose image.'}
-              </label>
-              <input
-                className="hidden"
-                id="imageFile"
-                type="file"
-                onChange={onChangeImageFile}
-              />
               <input
                 className="btn-style px-2"
                 type="text"
