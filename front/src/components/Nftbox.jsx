@@ -27,13 +27,13 @@ const NftBox = (idx) => {
     data && (
       <div>
         <img
-          className="h-40 w-40 bg-white border-gray-200 border-2 rounded-t-3xl"
+          className="h-48 w-40 bg-white border-zinc-200 border rounded-3xl drop-shadow-2xl"
           src={data}
           alt="이미지 설명"
         />
-        <div className="h-[48px] bg-zinc-500 opacity-60 text-white text-center items-center flex justify-center  rounded-b-3xl">
+        {/* <div className="h-[48px] bg-zinc-500 opacity-60 text-white text-center items-center flex justify-center  rounded-b-3xl">
           {name}
-        </div>
+        </div> */}
       </div>
     )
   );

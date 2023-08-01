@@ -8,14 +8,14 @@ const Register = () => {
   const [username, setUsername] = useState();
   const [email, setEmail] = useState();
   const [isLoading, setIsLoading] = useState(false);
-  const { temp , setTemp } = useContext(AppContext);
+  const { temp, setTemp } = useContext(AppContext);
 
   const Userinsert = async (e) => {
     e.preventDefault();
 
     try {
       if (!temp || !username || !email) {
-        console.log('plus input');
+        console.log("plus input");
         // 입력이 필요합니다 팝업 or 안내문
         return;
       }
@@ -31,22 +31,22 @@ const Register = () => {
         },
         {
           headers: {
-            'ngrok-skip-browser-warning': 'any',
+            "ngrok-skip-browser-warning": "any",
           },
         }
       );
 
       setIsLoading(false);
-      navigate('/');
+      navigate("/login");
     } catch (error) {
       console.error(error);
       setIsLoading(false);
     }
   };
 
-  const onClickAccount = () =>{
-    navigate('/login');
-  }
+  const onClickAccount = () => {
+    navigate("/login");
+  };
 
   return (
     <div className="min-h-screen flex flex-col items-center mt-52">

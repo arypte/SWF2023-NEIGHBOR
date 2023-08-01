@@ -1,24 +1,29 @@
-import React, { ChangeEvent, FormEvent, useContext, useEffect, useState } from "react";
+import React, {
+  ChangeEvent,
+  FormEvent,
+  useContext,
+  useEffect,
+  useState,
+} from "react";
 import axios from "axios";
-import { useSearchParams } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { AppContext } from "../App";
+import LoadingPage from "../components/Loading";
 
 const Mint = () => {
-  
-  const { account , web3 , nft_c } = useContext(AppContext);
+  const { account, web3, nft_c } = useContext(AppContext);
+  const navigate = useNavigate();
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [jsonHash, setJsonHash] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  const [data,setData] = useState() ;
-  const [chk,setChk] = useState(false) ;
+  const [data, setData] = useState();
+  const [chk, setChk] = useState(false);
   const [sp, setSP] = useSearchParams();
   const idx = sp.get("id");
 
-  const get_db_data = async() => {
-
+  const get_db_data = async () => {
     try {
-
       // console.log( `${process.env.REACT_APP_BACKEND_URL}/nftdata/${idx}` ) ;
       const response = await axios.get(
         `${process.env.REACT_APP_BACKEND_URL}/nftdata/${idx}`,
@@ -28,33 +33,31 @@ const Mint = () => {
           },
         }
       );
-      setData( response.data[0] ) ;
-      setChk(true) ;
+      setData(response.data[0]);
+      setChk(true);
+    } catch (error) {
+      console.error(error);
     }
-    catch (error) {
-      console.error(error) ;  
-    }
-  }
+  };
 
-  useEffect( () => {
-    get_db_data() ;
-  } , [] ) ;
+  useEffect(() => {
+    get_db_data();
+  }, []);
 
-  useEffect( () =>{
-    if( chk ) {
-      onSubmitIpfs() ;
+  useEffect(() => {
+    if (chk) {
+      onSubmitIpfs();
     }
-  } , [chk] )
+  }, [chk]);
 
   const onSubmitIpfs = async () => {
     try {
-
-      setIsLoading( true ) ;
+      setIsLoading(true);
 
       const jsonData = {
-        name : data.name , 
-        description : data.description ,
-        image: data.image ,
+        name: data.name,
+        description: data.description,
+        image: data.image,
         attributes: [
           { trait_type: "date", value: "Yellow" },
           { trait_type: "location", value: data.location },
@@ -111,16 +114,21 @@ const Mint = () => {
     try {
       setIsLoading(true);
 
-      console.log( `${process.env.REACT_APP_PINATA_URL}${jsonHash}` , idx , account.address ) ;
+      console.log(
+        `${process.env.REACT_APP_PINATA_URL}${jsonHash}`,
+        idx,
+        account.address
+      );
 
       const res = await nft_c.methods
-         .push_STAMP( `${process.env.REACT_APP_PINATA_URL}${jsonHash}` , idx  ).send({ from: account.address });
+        .push_STAMP(`${process.env.REACT_APP_PINATA_URL}${jsonHash}`, idx)
+        .send({ from: account.address });
 
       const response = await axios.post(
         `${process.env.REACT_APP_BACKEND_URL}/nft`,
         {
-          owner : account.address ,
-          tokenID : parseInt(res.logs[0].topics[3], 16 ) ,
+          owner: account.address,
+          tokenID: parseInt(res.logs[0].topics[3], 16),
         },
         {
           headers: {
@@ -134,6 +142,8 @@ const Mint = () => {
       // if (Number(res.status) !== 1) return;
 
       setIsLoading(false);
+
+      navigate(`/main?address=${account.address}`);
     } catch (error) {
       console.error(error);
 
@@ -144,17 +154,23 @@ const Mint = () => {
   return (
     <>
       {isLoading ? (
-        <div className="text-3xl">Loading...</div>
+        // <div className="min-h-screen flex justify-center text-3xl font-bold pt-80">
+        //   Loading...
+        // </div>
+        <LoadingPage />
       ) : (
         <>
           {jsonHash && (
-            <div className="flex flex-col m-10 mb-40 items-center">
-              <div className="text-2xl">IPFS upload is successful.</div>
-              <button className="" onClick={onClickMint}>
+            <div className="min-h-screen flex flex-col pt-40 items-center">
+              <img className="h-64 w-fit" src="" alt="nft image" />
+              <button
+                className="mt-6 w-40 h-12 rounded-3xl bg-neutral-700 text-white font-bold text-center hover:bg-neutral-500"
+                onClick={onClickMint}
+              >
                 Mint
               </button>
             </div>
-          ) }
+          )}
         </>
       )}
     </>
