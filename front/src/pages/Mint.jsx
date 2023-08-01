@@ -160,7 +160,7 @@ const Mint = () => {
         <>
           {jsonHash && (
             <div className="min-h-screen flex flex-col pt-40 items-center">
-              <img className="h-64 w-fit" src="" alt="nft image" />
+              <img className="h-64 w-fit" src={data.image} alt="nft image" />
               <button
                 className="mt-6 w-40 h-12 rounded-3xl bg-neutral-700 text-white font-bold text-center hover:bg-neutral-500"
                 onClick={onClickMint}
