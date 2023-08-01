@@ -7,7 +7,7 @@ import axios from "axios";
 const Main = () => {
   const { account, setAccount } = useContext(AppContext);
   const [isModalOn, setIsModalOn] = useState(false);
-
+  const [data , setData ] = useState() ;
   const [searchParams, setSearchParams] = useSearchParams();
   const address = searchParams.get("address");
 
@@ -17,10 +17,7 @@ const Main = () => {
   
   const get_nft_data = async () => {
 
-    // console.log( address ) ;
-
     try {
-      console.log(`${process.env.REACT_APP_BACKEND_URL}/nft/${address}`);
         const response = await axios.get(
           `${process.env.REACT_APP_BACKEND_URL}/nft/${address}`,
           {
@@ -29,8 +26,7 @@ const Main = () => {
             },
           }
         );
-        // setData(response.data);
-        console.log(response);
+        setData(response.data);
     } 
     catch (error) {
       console.error(error);

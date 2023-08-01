@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 import { AppContext } from "../App";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
 const Login = () => {
@@ -22,12 +22,16 @@ const Login = () => {
         }
       );
 
+      console.log( response.data ) ;
+
       if (!response.data.ok) {
         setTemp(accounts[0]);
-        navigate("/register");
+        navigate('/register');
       }
+      else{
       setAccount(response.data.user);
       navigate(`/main?address=${accounts[0]}`);
+    }
     } catch (error) {
       console.error(error);
     }

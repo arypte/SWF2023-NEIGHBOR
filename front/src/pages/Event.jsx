@@ -14,8 +14,6 @@ const Event = () => {
       setCheck(false);
       setResult("");
       setContent(e.target.elements.chat.value);
-      console.log('!', content);
-      console.log('!!',process.env.REACT_APP_GPT_URL);
 
       setIsLoading(true);
 
@@ -32,7 +30,6 @@ const Event = () => {
         }
       );
 
-      console.log(response);
       setResult(response.data.result);
       setIsLoading(false);
     } catch (error) {

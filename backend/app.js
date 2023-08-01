@@ -3,6 +3,7 @@ const cors = require("cors");
 const userRouter = require("./routes/user");
 const raffleRouter = require("./routes/raffle");
 const nftRouter = require("./routes/nft");
+const nftdataRouter = require("./routes/nftdata");
 
 const app = express();
 
@@ -13,6 +14,7 @@ app.use(express.json() ) ;
 app.use("/user", userRouter ) ;
 app.use("/raffle", raffleRouter ) ;
 app.use("/nft" , nftRouter ) ;
+app.use("/nft" , nftdataRouter ) ;
 
 app.get("/", (req, res) => {
   res.send("Hello, Express!");

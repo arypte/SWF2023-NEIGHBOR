@@ -25,7 +25,7 @@ model Nft{
   id              Int       @default(autoincrement()) @id
   createdAt       DateTime  @default(now())
   updatedAt       DateTime  @updatedAt
-  user            User      @relation(fields: [userAddr], references: [address])
+  user            User      @relation(fields: [owner], references: [address])
   owner        String
 }
 
@@ -37,4 +37,13 @@ model Raffle {
   isEnd           Boolean
   end_block       Int?
   winner          String?
+}
+
+model Nftdata{
+  id              Int       @default(autoincrement()) @id
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+  name            String
+  description     String
+  location        String
 }

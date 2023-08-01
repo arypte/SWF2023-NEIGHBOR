@@ -8,9 +8,6 @@ const client = new PrismaClient();
 // 유저 생성
 router.post('/', async (req, res) => {
   try {
-    // email       Int    @unique
-    // address     String    @unique
-    // name        String
     let { email , address, name } = req.body;
     const response = await client.user.findUnique({
       where: {
@@ -41,6 +38,8 @@ router.get('/:account', async (req, res) => {
   try {
     const { account } = req.params;
 
+    console.log( 'test1') ;
+
     const user = await client.user.findUnique({
       where: {
         address: account,
@@ -52,7 +51,8 @@ router.get('/:account', async (req, res) => {
     });
 
     if (!user) {
-      return res.json({ ok: false });
+      console.log(false) ;
+      return res.json({ ok: false }) ;
     }
 
     res.json({

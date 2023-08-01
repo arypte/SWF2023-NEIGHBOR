@@ -13,7 +13,7 @@ function TextToImage({ check, setCheck, text }) {
   const [ipfsHash, setIpfsHash] = useState();
 
   const textToImage = async () => {
-    console.log(check);
+    
     const imageWidth = 800;
     const imageHeight = 500;
     const font_size = 100;
@@ -94,12 +94,10 @@ function TextToImage({ check, setCheck, text }) {
       );
 
       if (res.status !== 200) return;
-      console.log("res");
-      console.log(res);
 
       setIpfsHash(res.data.IpfsHash);
-      console.log(res.data.IpfsHas);
-      console.log(ipfsHash);
+      // console.log(res.data.IpfsHas);
+      // console.log(ipfsHash);
     } catch (error) {
       console.log(error);
     }

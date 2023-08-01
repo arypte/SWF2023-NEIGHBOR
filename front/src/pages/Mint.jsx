@@ -1,11 +1,14 @@
 import React, { ChangeEvent, FormEvent, useEffect, useState } from "react";
 import axios from "axios";
+import { useSearchParams } from "react-router-dom";
 
 const Mint = () => {
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [jsonHash, setJsonHash] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [sp, setSP] = useSearchParams();
+  const idx = sp.get("id");  
 
   const onSubmitIpfs = async (e) => {
     try {
