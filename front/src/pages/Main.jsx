@@ -92,7 +92,11 @@ const Main = () => {
         <div className="flex justify-center items-center mt-6 mb-6">
           <div className="grid grid-cols-2 gap-x-5 gap-y-6">
             {data?.map((v, i) => {
-              return <NftBox key={i} idx={v.tokenID} />;
+              return (
+                <Link to = {`/nftdetail?id=${v.tokenID}`} key={i}  >
+                  <NftBox  idx={v.tokenID} />
+                </Link>
+              )
             })}
           </div>
         </div>

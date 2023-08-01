@@ -1,5 +1,5 @@
 
-export const HAECHI_ADD = '0x8Bf2441b82915e41daFA202309CF2200A7a38C95'
+export const HAECHI_ADD = '0xC60567B8cdB493B61Be0eC96274A5170B6D743F2'
 export const HAECHI_ABI = [
 	{
 		"anonymous": false,
