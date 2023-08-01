@@ -1,13 +1,5 @@
 import React, { useState, useEffect } from "react";
-import "../styles/Loading.css";
-
-function IconPage() {
-  return (
-    <div className="Icon-container">
-      <img src="/loading.gif" alt="Loading..." />
-    </div>
-  );
-}
+import LoadignIcon from "../components/LoadingIcon";
 
 function LoadingPage() {
   const [isLoading, setIsLoading] = useState(true);
@@ -25,8 +17,8 @@ function LoadingPage() {
   };
 
   return (
-    <div className="icon">
-      {isLoading && <IconPage />}
+    <div className="Icon">
+      {isLoading && <LoadignIcon />}
       <button onClick={StateChange}>{isLoading ? "" : ""}</button>
     </div>
   );
