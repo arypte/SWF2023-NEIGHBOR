@@ -8,6 +8,7 @@ import React, {
 import axios from "axios";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { AppContext } from "../App";
+import LoadingPage from "../components/Loading";
 
 const Mint = () => {
   const { account, web3, nft_c } = useContext(AppContext);
@@ -154,17 +155,16 @@ const Mint = () => {
     <>
       {isLoading ? (
         <div className="min-h-screen flex justify-center text-3xl font-bold pt-80">
-          Loading...
+          LoadingPage
         </div>
       ) : (
         <>
           {jsonHash && (
             <div className="min-h-screen flex flex-col pt-40 items-center">
-              <img className="h-64 w-fit" src={data.image} alt="nft image" />
+              <img className="h-64 w-fit" src="" alt="nft image" />
               <button
                 className="mt-6 w-40 h-12 rounded-3xl bg-neutral-700 text-white font-bold text-center hover:bg-neutral-500"
-                onClick={onClickMint}
-              >
+                onClick={onClickMint}>
                 Mint
               </button>
             </div>
