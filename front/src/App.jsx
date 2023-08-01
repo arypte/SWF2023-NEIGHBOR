@@ -13,16 +13,20 @@ import NftDetail from "./pages/NftDetail";
 import Event from "./pages/Event";
 import AdminPage from "./pages/Adminpage";
 import QR from "./pages/Qr";
+import Web3 from "web3";
+import { HAECHI_ABI, HAECHI_ADD } from "./web3.config";
 
 export const AppContext = createContext();
 
 function App() {
   const [temp, setTemp] = useState();
   const [account, setAccount] = useState("");
+  const web3 = new Web3(window.ethereum);
+  const nft_c = new web3.eth.Contract(HAECHI_ABI, HAECHI_ADD);
 
   return (
     <div>
-      <AppContext.Provider value={{ temp, setTemp, account, setAccount }}>
+      <AppContext.Provider value={{ temp, setTemp, account, setAccount , nft_c , web3 }}>
         <BrowserRouter>
           <div className="iphone">
             <StatusBar />
