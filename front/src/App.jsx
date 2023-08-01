@@ -16,11 +16,12 @@ import AdminPage from "./pages/Adminpage";
 export const AppContext = createContext();
 
 function App() {
+  const [temp, setTemp] = useState();
   const [account, setAccount] = useState("");
 
   return (
     <div>
-      <AppContext.Provider value={{ account, setAccount }}>
+      <AppContext.Provider value={{ temp , setTemp , account, setAccount }}>
         <BrowserRouter>
           <div className="iphone">
             <StatusBar />
