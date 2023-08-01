@@ -1,22 +1,19 @@
-import Web3 from "web3";
-import { HAECHI_ABI, HAECHI_ADD } from "../web3.config";
+
 import { useContext, useEffect, useState } from "react";
 import axios from "axios";
 import { useSearchParams } from "react-router-dom";
 import { AppContext } from "../App";
 
 const NftDetail = () => {
-  const { account, setAccount } = useContext(AppContext);
+  const { account, setAccount , web3 , nft_c } = useContext(AppContext);
 
-  const web3 = new Web3(window.ethereum);
-  const token_c = new web3.eth.Contract(HAECHI_ABI, HAECHI_ADD);
   const [data, setData] = useState();
   const [sp, setSP] = useSearchParams();
   const idx = sp.get("id");
 
   const getData = async () => {
     try {
-      const URL = await token_c.methods.tokenURI(idx).call();
+      const URL = await nft_c.methods.tokenURI(idx).call();
       const response = await axios.get(URL);
       setData(response.data);
     } catch (error) {

@@ -1,32 +1,63 @@
-import React, { ChangeEvent, FormEvent, useEffect, useState } from "react";
+import React, { ChangeEvent, FormEvent, useContext, useEffect, useState } from "react";
 import axios from "axios";
 import { useSearchParams } from "react-router-dom";
+import { AppContext } from "../App";
 
 const Mint = () => {
+  
+  const { account , web3 , nft_c } = useContext(AppContext);
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [jsonHash, setJsonHash] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [data,setData] = useState() ;
+  const [chk,setChk] = useState(false) ;
   const [sp, setSP] = useSearchParams();
-  const idx = sp.get("id");  
+  const idx = sp.get("id");
 
-  const onSubmitIpfs = async (e) => {
+  const get_db_data = async() => {
+
     try {
-      e.preventDefault();
 
-      if (!name || !description) return;
+      // console.log( `${process.env.REACT_APP_BACKEND_URL}/nftdata/${idx}` ) ;
+      const response = await axios.get(
+        `${process.env.REACT_APP_BACKEND_URL}/nftdata/${idx}`,
+        {
+          headers: {
+            "ngrok-skip-browser-warning": "any",
+          },
+        }
+      );
+      setData( response.data[0] ) ;
+      setChk(true) ;
+    }
+    catch (error) {
+      console.error(error) ;  
+    }
+  }
 
-      setIsLoading(true);
+  useEffect( () => {
+    get_db_data() ;
+  } , [] ) ;
+
+  useEffect( () =>{
+    if( chk ) {
+      onSubmitIpfs() ;
+    }
+  } , [chk] )
+
+  const onSubmitIpfs = async () => {
+    try {
+
+      setIsLoading( true ) ;
 
       const jsonData = {
-        name,
-        description,
-        image:
-          "https://github.com/team-codeplay-project/images/blob/main/image1.png?raw=true",
-        // image: `${process.env.NEXT_PUBLIC_PINATA_URL}/${imageRes.data.IpfsHash}`
+        name : data.name , 
+        description : data.description ,
+        image: data.image ,
         attributes: [
           { trait_type: "date", value: "Yellow" },
-          { trait_type: "location", value: "Red" },
+          { trait_type: "location", value: data.location },
         ],
       };
 
@@ -69,8 +100,6 @@ const Mint = () => {
       if (jsonRes.status !== 200) return;
 
       setJsonHash(jsonRes.data.IpfsHash);
-      console.log(jsonRes.data.IpfsHash);
-
       setIsLoading(false);
     } catch (error) {
       console.error(error);
@@ -82,12 +111,25 @@ const Mint = () => {
     try {
       setIsLoading(true);
 
-      // const res = await contract.methods
-      //   .mintNft(
-      //     // @ts-expect-error
-      //     `${process.env.NEXT_PUBLIC_PINATA_URL}/${jsonHash}`
-      //   )
-      //   .send({ from: account });
+      console.log( `${process.env.REACT_APP_PINATA_URL}${jsonHash}` , idx , account.address ) ;
+
+      const res = await nft_c.methods
+         .push_STAMP( `${process.env.REACT_APP_PINATA_URL}${jsonHash}` , idx  ).send({ from: account.address });
+
+      const response = await axios.post(
+        `${process.env.REACT_APP_BACKEND_URL}/nft`,
+        {
+          owner : account.address ,
+          tokenID : parseInt(res.logs[0].topics[3], 16 ) ,
+        },
+        {
+          headers: {
+            "ngrok-skip-browser-warning": "any",
+          },
+        }
+      );
+
+      // console.log( response ) ;
 
       // if (Number(res.status) !== 1) return;
 
@@ -105,33 +147,14 @@ const Mint = () => {
         <div className="text-3xl">Loading...</div>
       ) : (
         <>
-          {jsonHash ? (
-            <div className="flex flex-col gap-4 items-center">
+          {jsonHash && (
+            <div className="flex flex-col m-10 mb-40 items-center">
               <div className="text-2xl">IPFS upload is successful.</div>
-              <button className="btn-style" onClick={onClickMint}>
+              <button className="" onClick={onClickMint}>
                 Mint
               </button>
             </div>
-          ) : (
-            <form
-              className="flex flex-col gap-4 bg-red-300"
-              onSubmit={onSubmitIpfs}
-            >
-              <input
-                className="btn-style px-2"
-                type="text"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-              />
-              <input
-                className="btn-style px-2"
-                type="text"
-                value={description}
-                onChange={(e) => setDescription(e.target.value)}
-              />
-              <input className="btn-style" type="submit" value="Upload IPFS" />
-            </form>
-          )}
+          ) }
         </>
       )}
     </>

@@ -7,11 +7,12 @@ const client = new PrismaClient();
 // nft 생성
 router.post('/', async (req, res) => {
   try {
-    const { owner } = req.body;
+    const { owner , tokenID } = req.body;
 
     await client.nft.create({
       data: {
-        owner
+        owner,
+        tokenID,
       },
     });
 
@@ -52,6 +53,7 @@ router.get('/id/:idx', async (req, res) => {
 router.get('/:account', async (req, res) => {
   try {
     const owner = req.params.account;
+    // console.log( owner ) ;
     const nft = await client.nft.findMany({
       where: {
         owner,

@@ -6,7 +6,7 @@ const QR = () => {
   const navigate = useNavigate();
 
   const onClickMint = () => {
-    navigate("/mint");
+    navigate("/mint?id=1");
   };
 
   return (

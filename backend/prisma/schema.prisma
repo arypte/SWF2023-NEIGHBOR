@@ -27,6 +27,7 @@ model Nft{
   updatedAt       DateTime  @updatedAt
   user            User      @relation(fields: [owner], references: [address])
   owner        String
+  tokenID         Int
 }
 
 model Raffle {
@@ -44,6 +45,7 @@ model Nftdata{
   createdAt       DateTime  @default(now())
   updatedAt       DateTime  @updatedAt
   name            String
+  image           String
   description     String
   location        String
 }

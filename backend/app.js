@@ -14,7 +14,7 @@ app.use(express.json() ) ;
 app.use("/user", userRouter ) ;
 app.use("/raffle", raffleRouter ) ;
 app.use("/nft" , nftRouter ) ;
-app.use("/nft" , nftdataRouter ) ;
+app.use("/nftdata" , nftdataRouter ) ;
 
 app.get("/", (req, res) => {
   res.send("Hello, Express!");

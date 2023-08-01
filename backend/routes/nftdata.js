@@ -18,7 +18,9 @@ router.get('/:idx', async (req, res) => {
       },
     });
     return res.json(nft);
-  } catch (error) {
+  }
+
+  catch (error) {
     console.error(error);
     res.status(500).json({ error: 'An error occurred' });
   }

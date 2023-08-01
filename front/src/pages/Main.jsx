@@ -3,6 +3,7 @@ import { AppContext } from "../App";
 import { Link, useSearchParams } from "react-router-dom";
 import NoticeModal from "../components/NoticeModal";
 import axios from "axios";
+import NftBox from "../components/Nftbox";
 
 const Main = () => {
   const { account, setAccount } = useContext(AppContext);
@@ -10,6 +11,7 @@ const Main = () => {
   const [data , setData ] = useState() ;
   const [searchParams, setSearchParams] = useSearchParams();
   const address = searchParams.get("address");
+  const [level,setLevel ] = useState();
 
   const onClickModal = () => {
     setIsModalOn(!isModalOn);
@@ -18,15 +20,31 @@ const Main = () => {
   const get_nft_data = async () => {
 
     try {
+
+        console.log(    `${process.env.REACT_APP_BACKEND_URL}/nft/${account.adderss}`);
+
         const response = await axios.get(
-          `${process.env.REACT_APP_BACKEND_URL}/nft/${address}`,
+          `${process.env.REACT_APP_BACKEND_URL}/nft/${account.address}`,
           {
             headers: {
               "ngrok-skip-browser-warning": "any",
             },
           }
         );
+
         setData(response.data);
+        if( response.data.length < 3 ){
+          setLevel( `https://github.com/arypte/swf_hackathon_project/blob/main/Images/Emblem/Black.png?raw=true` ) ;
+        }
+        else if( response.data.length < 5 ) {
+          setLevel( `https://github.com/arypte/swf_hackathon_project/blob/main/Images/Emblem/Silver.png?raw=true` ) ;
+        }
+        else{
+          setLevel( `https://github.com/arypte/swf_hackathon_project/blob/main/Images/Emblem/Gold.png?raw=true` ) ;
+        }
+
+        console.log( response.data ) ;
+
     } 
     catch (error) {
       console.error(error);
@@ -35,6 +53,7 @@ const Main = () => {
   };
 
   useEffect(() => {
+    // console.log(account) ;
     get_nft_data() ;
   }, []);
 
@@ -49,6 +68,7 @@ const Main = () => {
         </div>
         <div className="w-[70px] h-[70px] bg-neutral-500 rounded-3xl ml-4 relative">
           엠블렘 박스
+          { level  && <img src= {`${level}`} ></img> }
           {/* <button
             onClick={onClickModal}
             className="absolute top-[-20px] right-[-20px] w-10 h-10 bg-neutral-500 rounded-3xl"
@@ -68,8 +88,9 @@ const Main = () => {
         </div>
         <div className="flex justify-center items-center mt-6 mb-6">
           <div className="grid grid-cols-2 gap-x-5 gap-y-6">
-            
-            <div className="h-52 w-40 bg-neutral-400 rounded-3xl">box</div>
+            { data?.map( (v,i) => {
+              return <NftBox key={i} idx={v.id} /> 
+            } )}
           </div>
         </div>
       </div>
