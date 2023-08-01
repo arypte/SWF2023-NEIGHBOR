@@ -40,13 +40,12 @@ router.get('/', async (req, res) => {
   }
 });
 
-// 특정 래플 조회
-router.get('/winner/:address', async (req, res) => {
+// 특정 id 래플 조회
+router.get('/:id', async (req, res) => {
   try {
-    const address = req.params.address;
-
-    const raffle = await client.raffle.findMany({
-      where: { winner: address },
+    const id = parseInt(req.params.id, 10);
+    const raffle = await client.raffle.findUnique({
+      where: { id },
     });
     return res.json(raffle);
   } catch (error) {
@@ -54,6 +53,7 @@ router.get('/winner/:address', async (req, res) => {
     res.status(500).json({ error: 'An error occurred' });
   }
 });
+
 
 // 래플 완료
 router.put('/:id/done', async (req, res) => {
