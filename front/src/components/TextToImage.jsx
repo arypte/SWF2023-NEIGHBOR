@@ -1,16 +1,83 @@
-import React, { useRef, useState, useEffect } from "react";
+import React, { useRef, useState, useEffect, useContext } from "react";
 import html2canvas from "html2canvas";
 import axios from "axios";
+import { AppContext } from "../App";
 
 // Placeholder image URL
 // const PLACEHOLDER_IMAGE_URL = "https://example.com/placeholder-image.png";
 
-function TextToImage({ check, setCheck, text }) {
+function TextToImage({ check, setCheck, text , idx }) {
   const imageRef = useRef(null);
   //   const [check, setCheck] = useState(false);
+  const { nft_c , account } = useContext(AppContext) ;
+  
   const [selectedFont, setSelectedFont] = useState(); // Default font is Arial
   const [img, setImg] = useState();
   const [ipfsHash, setIpfsHash] = useState();
+  const [check2 , setCheck2] = useState( true ) ;
+  const [isLoading, setIsLoading] = useState(false);
+
+  const get_R_data = async () => {
+    setIsLoading(true);
+    console.log(idx);
+    try {
+      console.log( `${process.env.REACT_APP_BACKEND_URL}/raffle/${idx}` ) ;
+      const response = await axios.get(
+        `${process.env.REACT_APP_BACKEND_URL}/raffle/${idx}`,
+        {
+          headers: {
+            'ngrok-skip-browser-warning': 'any',
+          },
+        }
+      );
+
+      const endchk = response.data.isEnd;
+
+      if (endchk == true) {
+        console.log( 'none' ) ;
+      } else {
+        const f_B = response.data.start_block; // fromBlock : 은 디비에서
+        const a = await nft_c.getPastEvents('Raffle', {
+          filter: { _idx: idx },
+          fromBlock: f_B,
+          toBlock: 'latest',
+        });
+        for (const v of a) {
+          const nowdata = v.returnValues._add.toLowerCase();
+          if (nowdata === account.address) {
+            setCheck2(false);
+            break; // 중지
+          }
+        }
+      }
+
+      setIsLoading(false);
+      //console.log( 'chk_raffle!' ) ;
+    } catch (error) {
+      console.log(error);
+      setIsLoading(false);
+    }
+  };
+
+  const onclickRaffle_participate = async () => {
+    setIsLoading(true);
+    try {
+      await nft_c.methods
+        .Raffle_participate(idx,'a', text , selectedFont)
+        .send({ from: account.address });
+      get_R_data();
+    } catch (error) {
+      setIsLoading(false);
+      error(error);
+    }
+  };
+
+  useEffect(() => {
+
+    if( idx ) {
+    get_R_data();
+  }
+  }, [idx]);
 
   const textToImage = async () => {
     const imageWidth = 800;
@@ -117,18 +184,20 @@ function TextToImage({ check, setCheck, text }) {
     // uploadToPinata();
   }, [img]);
 
+  
+
   //   useEffect(() => {
   //     // When the component mounts, show the placeholder image in the imageRef
   //     imageRef.current.src = PLACEHOLDER_IMAGE_URL;
   //   }, []);
 
   return (
-    <div className="mt-4 flex flex-col items-center">
+    <div className="mt-1 flex flex-col items-center">
       <label className="text-lg font-bold" htmlFor="fontSelect">
         Choose Font
       </label>
       <select
-        className="mt-2 w-64 text-lg"
+        className="mt-1 w-64 text-lg"
         id="fontSelect"
         onChange={handleFontChange}
       >
@@ -143,14 +212,20 @@ function TextToImage({ check, setCheck, text }) {
       {selectedFont && (
         <button
           onClick={handleButtonClick}
-          className="w-40 h-12 rounded-3xl bg-neutral-700 text-white font-bold text-center hover:bg-neutral-500"
+          className="w-40 h-10 rounded-3xl bg-neutral-700 text-white font-bold text-center hover:bg-neutral-500"
         >
           Generate Image
         </button>
       )}
       <br />
-      {check == true && <img ref={imageRef} alt="Generated Image" />}
-      {/* <button >추후 응모하기 or 응모버튼</button>/ */}
+      {check == true && 
+        <div className = "flex flex-col items-center">
+        <img ref={imageRef} alt="Generated Image" />
+        { isLoading == false && check2 == true && 
+        <button className="w-40 h-10 rounded-3xl bg-neutral-700 text-white font-bold text-center hover:bg-neutral-500" onClick={onclickRaffle_participate}>apply</button>
+        }
+        </div>
+        }
     </div>
   );
 }

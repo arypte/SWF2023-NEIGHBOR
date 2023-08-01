@@ -28,7 +28,6 @@ const Main = () => {
       );
 
       setData(response.data);
-      console.log(response.data);
       if (response.data.length < 3) {
         setLevel(
           `https://github.com/arypte/swf_hackathon_project/blob/main/Images/Emblem/Black.png?raw=true`

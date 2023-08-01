@@ -5,13 +5,13 @@ import { AppContext } from "../App";
 const chk = {};
 const AdminPage = () => {
   const [data, setData] = useState();
-  const [Goods_name, setName] = useState("상품 이름");
   const [winner, setWinner] = useState([]);
   const [n, setN] = useState();
   const [E, setE] = useState();
-  const { token_c , web3 , account } = useContext(AppContext);
+  const { nft_c , web3 , account } = useContext(AppContext);
 
   const [isLoading, setIsLoading] = useState(false);
+  const [ing , setIng] = useState(false) ;
 
   const imageRef = useRef(null);
   //   const [check, setCheck] = useState(false);
@@ -163,11 +163,13 @@ const AdminPage = () => {
       const f_B = response.data.start_block; // fromBlock : 은 디비에서
       const e_B = end_block;
 
-      const a = await token_c.getPastEvents("Raffle", {
+      const a = await nft_c.getPastEvents("Raffle", {
         filter: { _idx: key },
         fromBlock: f_B,
         toBlock: e_B,
       });
+
+      console.log(a);
 
       initializeChk();
 
@@ -188,14 +190,17 @@ const AdminPage = () => {
 
   const get_R_winner = async () => {
     if (winner.length != 0) {
-      let idx = await token_c.methods.Raffle_End(n, winner.length).call();
-      // idx = Number(idx);
+      let idx = await nft_c.methods.Raffle_End(n, winner.length).call();
+      idx = Number(idx);
+
+      console.log( idx , typeof idx ) ;
+      console.log( winner ) ;
 
       await axios.put(
         `${process.env.REACT_APP_BACKEND_URL}/raffle/${n}}/done`,
         {
           end_block: E,
-          winner: winner[idx],
+          winner: winner[idx]._add,
         },
         {
           headers: {
@@ -205,6 +210,37 @@ const AdminPage = () => {
 
         // setText( winner[ idx ].ko ) ;
       );
+
+      console.log( 'idx ok' ) ;
+      
+      const response = await axios.get(
+        `${process.env.REACT_APP_BACKEND_URL}/raffle/${n}`,
+        {
+          headers: {
+            "ngrok-skip-browser-warning": "any",
+          },
+        }
+      );
+
+      // console.log(response);
+
+      console.log("db ok");
+
+      const f_B = response.data.start_block; // fromBlock : 은 디비에서
+      const e_B = response.data.end_block;
+
+      const a = await nft_c.getPastEvents("Raffle", {
+        filter: { _add : winner[ idx ]._add.toLowerCase() },
+        fromBlock: f_B,
+        toBlock: e_B,
+      });
+
+      // console.log( a[0].returnValues ) ;
+
+      setSelectedFont( a[0].returnValues._font ) ;
+      setText( a[0].returnValues._ko_name ) ;
+      setIng( true ) ;
+
       get_Data();
     }
   };
@@ -248,8 +284,7 @@ const AdminPage = () => {
   };
 
   useEffect(() => {
-    // get_Data();
-    console.log('aaaaa');
+    get_Data();
   }, []);
 
   return (
@@ -271,13 +306,16 @@ const AdminPage = () => {
               {v.id} {v.name} 래플 종료
             </button>
           );
-
           return null;
         })
       )}
     </div>
   </div>
   );
+
+  // 종료 버튼 누르면 textToImage 실행 시키는 버튼 1
+  // 버튼 1 누르면 uploadToPinata 실생 시키는 버튼 2
+  // 버튼 2 누르면 Mint 해주는 버튼 3
 };
 
 export default AdminPage;

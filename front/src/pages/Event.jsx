@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
 import TextToImage from "../components/TextToImage";
 
@@ -7,6 +7,36 @@ const Event = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [result, setResult] = useState("");
   const [check, setCheck] = useState(false);
+  const [data,setData] = useState();
+
+  const get_Data = async () => {
+    setIsLoading(true);
+    try {
+
+      const response = await axios.get(
+        `${process.env.REACT_APP_BACKEND_URL}/raffle/`,
+        {
+          headers: {
+            'ngrok-skip-browser-warning': 'any',
+          },
+          params: {
+            isEnd: false,
+          },
+        }
+      );
+      setData(response.data[0].id);
+      setIsLoading(false);
+    } catch (error) {
+      console.log(error);
+      setIsLoading(false);
+    }
+  };
+
+  useEffect( () => {
+    // console.log( 'test get data' ) ;
+    get_Data();
+  } ,[] ) ;
+
   const onSubmitChat = async (e) => {
     try {
       e.preventDefault();
@@ -66,7 +96,7 @@ const Event = () => {
         )}
       </div>
       {result && (
-        <TextToImage text={result} check={check} setCheck={setCheck} />
+        <TextToImage text={result} check={check} setCheck={setCheck} idx={data} />
       )}
     </div>
   );
