@@ -13,7 +13,6 @@ function TextToImage({ check, setCheck, text }) {
   const [ipfsHash, setIpfsHash] = useState();
 
   const textToImage = async () => {
-    
     const imageWidth = 800;
     const imageHeight = 500;
     const font_size = 100;
@@ -104,7 +103,7 @@ function TextToImage({ check, setCheck, text }) {
   };
 
   const handleFontChange = (event) => {
-    setSelectedFont(event.target.value) ;
+    setSelectedFont(event.target.value);
   };
 
   const handleButtonClick = () => {
@@ -124,10 +123,15 @@ function TextToImage({ check, setCheck, text }) {
   //   }, []);
 
   return (
-    <div className=" bg-yellow-200">
-      {check == true && <img ref={imageRef} alt="Generated Image" />}
-      <label htmlFor="fontSelect">Select Font: </label>
-      <select id="fontSelect" onChange={handleFontChange}>
+    <div className="mt-4 flex flex-col items-center">
+      <label className="text-lg font-bold" htmlFor="fontSelect">
+        Choose Font
+      </label>
+      <select
+        className="mt-2 w-64 text-lg"
+        id="fontSelect"
+        onChange={handleFontChange}
+      >
         <option value="">선택 해주세요</option>
         <option value="SeoulHangangM">SeoulHangangM 한강체</option>
         <option value="SeoulNamsanM">SeoulNamsanM 남산체</option>
@@ -136,9 +140,17 @@ function TextToImage({ check, setCheck, text }) {
         </option>
       </select>
       <br />
-      { selectedFont && <button onClick={handleButtonClick}>Generate Image</button> }
+      {selectedFont && (
+        <button
+          onClick={handleButtonClick}
+          className="w-40 h-12 rounded-3xl bg-neutral-700 text-white font-bold text-center hover:bg-neutral-500"
+        >
+          Generate Image
+        </button>
+      )}
       <br />
-      <button >추후 응모하기 or 응모버튼</button>
+      {check == true && <img ref={imageRef} alt="Generated Image" />}
+      {/* <button >추후 응모하기 or 응모버튼</button>/ */}
     </div>
   );
 }

@@ -7,7 +7,7 @@ function LoadingPage() {
   useEffect(() => {
     const timer = setTimeout(() => {
       setIsLoading(false);
-    }, 3000);
+    }, 60000);
 
     return () => clearTimeout(timer);
   }, []);

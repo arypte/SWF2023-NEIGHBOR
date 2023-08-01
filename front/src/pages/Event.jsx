@@ -38,12 +38,8 @@ const Event = () => {
     }
   };
   return (
-    <div className=" bg-red-200 p-8  mb-44">
-      <div className=" text-center pb-5 text-md">
-        {result && <div> Your Korean name is "{result}" </div>}
-      </div>
-      <TextToImage text={result} check={check} setCheck={setCheck} />
-      <form className=" w-full flex flex-auto" onSubmit={onSubmitChat}>
+    <div className="min-h-screen flex flex-col items-center pt-4 bg-zinc-200">
+      <form className=" w-[300px] flex flex-col" onSubmit={onSubmitChat}>
         <input
           type="text"
           value={content}
@@ -57,10 +53,21 @@ const Event = () => {
           disabled={isLoading}
           className={`${
             isLoading && content ? "검색중..." : ""
-          } m-3 font-bold  text-3x text-sky-500/50 bg-sky-400/20 px-6 py-4 rounded-xl hover:bg-sky-400/10 shadow-md`}
+          } w-full mt-4 font-bold  text-3x text-white bg-neutral-700 px-6 py-4 rounded-xl hover:bg-neutral-400 shadow-md`}
           value={isLoading && content ? "검색중..." : " 이름 검색"}
         />
       </form>
+      <div className=" text-center pt-5 text-md">
+        {result && (
+          <div className="bg-white p-5 rounded-3xl">
+            {" "}
+            Your Korean name is "{result}"{" "}
+          </div>
+        )}
+      </div>
+      {result && (
+        <TextToImage text={result} check={check} setCheck={setCheck} />
+      )}
     </div>
   );
 };

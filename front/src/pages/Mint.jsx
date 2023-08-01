@@ -22,6 +22,15 @@ const Mint = () => {
   const [sp, setSP] = useSearchParams();
   const idx = sp.get("id");
 
+  const options = {
+    timeZone: "Asia/Seoul",
+    year: "numeric",
+    day: "numeric",
+    month: "long",
+    weekday: "long",
+  };
+  const currentTime = new Date().toLocaleString("en-US", options);
+
   const get_db_data = async () => {
     try {
       // console.log( `${process.env.REACT_APP_BACKEND_URL}/nftdata/${idx}` ) ;
@@ -59,7 +68,7 @@ const Mint = () => {
         description: data.description,
         image: data.image,
         attributes: [
-          { trait_type: "date", value: "Yellow" },
+          { trait_type: "date", value: currentTime },
           { trait_type: "location", value: data.location },
         ],
       };
@@ -164,7 +173,8 @@ const Mint = () => {
               <img className="h-64 w-fit" src={data.image} alt="nft image" />
               <button
                 className="mt-6 w-40 h-12 rounded-3xl bg-neutral-700 text-white font-bold text-center hover:bg-neutral-500"
-                onClick={onClickMint}>
+                onClick={onClickMint}
+              >
                 Mint
               </button>
             </div>

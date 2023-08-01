@@ -30,25 +30,25 @@ const Footer = () => {
     <div className="absolute w-full bottom-0 h-24 flex items-center border-t border-zinc-200 bg-white">
       <button
         onClick={onClickHome}
-        className="h-full w-1/4 flex justify-center items-center border-r border-zinc-200"
+        className="h-full w-1/4 flex justify-center items-center border-r border-zinc-200 hover:bg-zinc-100"
       >
         <RiHomeLine className="text-3xl text-neutral-700 font-bold" />
       </button>
       <button
         onClick={onClickList}
-        className="h-full w-1/4 flex justify-center items-center border-r border-zinc-200"
+        className="h-full w-1/4 flex justify-center items-center border-r border-zinc-200 hover:bg-zinc-100"
       >
         <RiBookReadLine className="text-3xl text-yellow-400" />
       </button>
       <button
         onClick={onClickEvent}
-        className="h-full w-1/4 flex justify-center items-center border-r border-zinc-200"
+        className="h-full w-1/4 flex justify-center items-center border-r border-zinc-200 hover:bg-zinc-100"
       >
         <HiOutlineHeart className="text-3xl text-pink-400" />
       </button>
       <button
         onClick={onClickQr}
-        className="h-full w-1/4 flex justify-center items-center"
+        className="h-full w-1/4 flex justify-center items-center hover:bg-zinc-100"
       >
         <GoScreenFull className="text-3xl text-blue-400" />
       </button>

@@ -85,7 +85,7 @@ const Main = () => {
         </div>
       </div>
       <div className="mt-10">
-        <div className="flex justify-between px-4 font-bold">
+        <div className="flex justify-between px-6 font-bold">
           <div className="text-2xl">My Haechi</div>
         </div>
         <div className="flex justify-center items-center mt-6 mb-6">

@@ -43,7 +43,7 @@ const Login = () => {
         src="/images/letsGo_Haechi.png"
         alt="Login Image"
       />
-      <div className="mt-16 font-bold flex flex-col w-[250px]">
+      <div className="mt-32 font-bold flex flex-col w-[300px]">
         <button
           onClick={onClickAccount}
           className="bg-neutral-900 text-white w-full py-4 rounded-full hover:bg-neutral-700 mr-6"

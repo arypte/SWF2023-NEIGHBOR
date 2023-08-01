@@ -31,24 +31,27 @@ const Welcome = () => {
   return (
     <>
       {isClick ? (
-        <div className="min-h-screen flex flex-col items-center">
+        <div className="min-h-screen flex flex-col justify-between items-center relative">
           <img
-            className="w-fit h-[500px] mt-10"
+            className="mt-10 absoulte left-0"
             src={images[currentImageIndex]}
             alt="Slider Image"
             style={{ objectFit: "cover" }}
           />
-          <button
-            onClick={onClickNext}
-            className="bg-neutral-900 text-white w-[300px] py-4 rounded-full hover:bg-neutral-700 mt-16 font-bold"
-          >
-            Next
-          </button>
-          <Link to="/login">
-            <button className="bg-neutral-200 text-black w-[300px] py-4 mt-5 rounded-full hover:bg-neutral-300 font-bold">
-              Skip
+
+          <div className="w-[300px] mb-60">
+            <button
+              onClick={onClickNext}
+              className="bg-neutral-900 text-white w-full py-4 rounded-full hover:bg-neutral-700 mt-16 font-bold"
+            >
+              Next
             </button>
-          </Link>
+            <Link to="/login">
+              <button className="bg-neutral-200 text-black w-full py-4 mt-5 rounded-full hover:bg-neutral-300 font-bold">
+                Skip
+              </button>
+            </Link>
+          </div>
         </div>
       ) : (
         <div className="min-h-screen flex justify-center items-center">
