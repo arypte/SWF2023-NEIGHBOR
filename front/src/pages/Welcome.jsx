@@ -41,7 +41,7 @@ const Welcome = () => {
             />
           </div>
 
-          <div className="w-[300px] mb-60">
+          <div className="w-[300px] mb-[273px]">
             <button
               onClick={onClickNext}
               className="bg-neutral-900 text-white w-full py-4 rounded-full hover:bg-neutral-700 mt-16 font-bold"
