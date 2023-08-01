@@ -59,11 +59,11 @@ const Welcome = () => {
         <div className="min-h-screen flex justify-center items-center">
           <button
             onClick={onClickLogo}
-            className="h-full w-full flex justify-center items-center"
+            className="h-full  w-full flex justify-center items-center"
           >
             <img
-              className="bg-blue-300 mb-40 w-[200px] h-[200px]" // Logo 이미지 넣을떄 따로 값 바꿔주면됨
-              src=""
+              className=" w-[200px]  mb-[240px]  h-[200px]" // Logo 이미지 넣을떄 따로 값 바꿔주면됨
+              src="/images/Welcome/logo.png"
               alt="Logo Image"
             />
           </button>
