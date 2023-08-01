@@ -2,10 +2,10 @@ import React, { useContext, useEffect, useState } from "react";
 import { AppContext } from "../App";
 import { Link, useSearchParams } from "react-router-dom";
 import NoticeModal from "../components/NoticeModal";
+import axios from "axios";
 
 const Main = () => {
   const { account, setAccount } = useContext(AppContext);
-  const [userName, setUserName] = useState("");
   const [isModalOn, setIsModalOn] = useState(false);
 
   const [searchParams, setSearchParams] = useSearchParams();
@@ -14,9 +14,32 @@ const Main = () => {
   const onClickModal = () => {
     setIsModalOn(!isModalOn);
   };
+  
+  const get_nft_data = async () => {
+
+    // console.log( address ) ;
+
+    try {
+      console.log(`${process.env.REACT_APP_BACKEND_URL}/nft/${address}`);
+        const response = await axios.get(
+          `${process.env.REACT_APP_BACKEND_URL}/nft/${address}`,
+          {
+            headers: {
+              "ngrok-skip-browser-warning": "any",
+            },
+          }
+        );
+        // setData(response.data);
+        console.log(response);
+    } 
+    catch (error) {
+      console.error(error);
+    }
+
+  };
 
   useEffect(() => {
-    console.log(address);
+    get_nft_data() ;
   }, []);
 
   return (
@@ -24,7 +47,7 @@ const Main = () => {
       <div className="flex justify-around mt-16 border-b-4 pb-12 border-zinc-200">
         <div className="font-bold">
           <div className="text-2xl">
-            {userName ? `${userName},` : "User Name,"}
+            {account ? `${account.name},` : "User Name,"}
           </div>
           <div>Hi, Haechi, traveler!</div>
         </div>
@@ -49,11 +72,7 @@ const Main = () => {
         </div>
         <div className="flex justify-center items-center mt-6 mb-6">
           <div className="grid grid-cols-2 gap-x-5 gap-y-6">
-            <div className="h-52 w-40 bg-neutral-400 rounded-3xl">box</div>
-            <div className="h-52 w-40 bg-neutral-400 rounded-3xl">box</div>
-            <div className="h-52 w-40 bg-neutral-400 rounded-3xl">box</div>
-            <div className="h-52 w-40 bg-neutral-400 rounded-3xl">box</div>
-            <div className="h-52 w-40 bg-neutral-400 rounded-3xl">box</div>
+            
             <div className="h-52 w-40 bg-neutral-400 rounded-3xl">box</div>
           </div>
         </div>
