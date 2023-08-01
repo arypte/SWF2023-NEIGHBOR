@@ -2,6 +2,15 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 
 const Welcome = () => {
+  const images = [
+    "image-url-1.jpg",
+    "image-url-2.jpg",
+    "image-url-3.jpg",
+    // Add more image URLs as needed
+  ];
+
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
+
   const [isClick, setIsClick] = useState(false);
 
   const onClickLogo = () => {
@@ -10,6 +19,7 @@ const Welcome = () => {
 
   const onClickNext = () => {
     console.log("다음이미지");
+    setCurrentImageIndex((prevIndex) => (prevIndex + 1) % images.length);
   };
 
   // test 끝난후 배경 색깔 지워야함
@@ -20,8 +30,9 @@ const Welcome = () => {
         <div className="min-h-screen flex flex-col items-center">
           <img
             className="bg-red-300 w-[300px] h-[450px] mt-20"
-            src=""
-            alt="Welcome Images"
+            src={images[currentImageIndex]}
+            alt="Slider Image"
+            style={{ objectFit: "cover" }}
           />
           <button
             onClick={onClickNext}

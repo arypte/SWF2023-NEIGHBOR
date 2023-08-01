@@ -18,6 +18,14 @@ const Footer = () => {
     navigate("/list");
   };
 
+  const onClickEvent = () => {
+    navigate("/event");
+  };
+
+  const onClickQr = () => {
+    navigate("/qr");
+  };
+
   return (
     <div className="absolute w-full bottom-0 h-24 flex items-center border-t border-zinc-200 bg-white">
       <button
@@ -32,10 +40,16 @@ const Footer = () => {
       >
         <RiBookReadLine className="text-3xl text-yellow-400" />
       </button>
-      <button className="h-full w-1/4 flex justify-center items-center border-r border-zinc-200">
+      <button
+        onClick={onClickEvent}
+        className="h-full w-1/4 flex justify-center items-center border-r border-zinc-200"
+      >
         <HiOutlineHeart className="text-3xl text-pink-400" />
       </button>
-      <button className="h-full w-1/4 flex justify-center items-center">
+      <button
+        onClick={onClickQr}
+        className="h-full w-1/4 flex justify-center items-center"
+      >
         <GoScreenFull className="text-3xl text-blue-400" />
       </button>
     </div>

@@ -1,64 +1,63 @@
-import React, { ChangeEvent, FormEvent, useEffect, useState } from 'react';
-import axios from 'axios';
+import React, { ChangeEvent, FormEvent, useEffect, useState } from "react";
+import axios from "axios";
 
 const Mint = () => {
-  const [name, setName] = useState('');
-  const [description, setDescription] = useState('');
-  const [jsonHash, setJsonHash] = useState('');
+  const [name, setName] = useState("");
+  const [description, setDescription] = useState("");
+  const [jsonHash, setJsonHash] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
   const onSubmitIpfs = async (e) => {
     try {
       e.preventDefault();
 
-      if ( !name || !description ) return;
+      if (!name || !description) return;
 
       setIsLoading(true);
 
       const jsonData = {
         name,
         description,
-        image: 'https://github.com/team-codeplay-project/images/blob/main/image1.png?raw=true',
+        image:
+          "https://github.com/team-codeplay-project/images/blob/main/image1.png?raw=true",
         // image: `${process.env.NEXT_PUBLIC_PINATA_URL}/${imageRes.data.IpfsHash}`
         attributes: [
-          { "trait_type": "date", "value": "Yellow" },
-          { "trait_type": "location", "value": "Red" },
-        ]
-
+          { trait_type: "date", value: "Yellow" },
+          { trait_type: "location", value: "Red" },
+        ],
       };
-
 
       // Create a JSON Blob from the JSON data
       const jsonBlob = new Blob([JSON.stringify(jsonData)], {
-        type: 'application/json',
+        type: "application/json",
       });
 
       // Create a File from the JSON Blob
       const jsonFile = new File([jsonBlob], `${name}.json`, {
-        type: 'application/json',
+        type: "application/json",
       });
 
       const formData = new FormData();
-      formData.append('file', jsonFile);
+      formData.append("file", jsonFile);
       formData.append(
-        'pinataMetadata',
+        "pinataMetadata",
         JSON.stringify({
           name: `${name}_json`,
         })
       );
       formData.append(
-        'pinataOptions',
+        "pinataOptions",
         JSON.stringify({
           cidVersion: 0,
         })
       );
 
       const jsonRes = await axios.post(
-        'https://api.pinata.cloud/pinning/pinFileToIPFS',
+        "https://api.pinata.cloud/pinning/pinFileToIPFS",
         formData,
         {
           headers: {
-            'Content-Type': 'multipart/form-data',
+            "Content-Type": "multipart/form-data",
             Authorization: `Bearer ${process.env.REACT_APP_PINATA_KEY}`,
           },
         }
@@ -78,7 +77,6 @@ const Mint = () => {
 
   const onClickMint = async () => {
     try {
-
       setIsLoading(true);
 
       // const res = await contract.methods
@@ -104,7 +102,6 @@ const Mint = () => {
         <div className="text-3xl">Loading...</div>
       ) : (
         <>
-         
           {jsonHash ? (
             <div className="flex flex-col gap-4 items-center">
               <div className="text-2xl">IPFS upload is successful.</div>
@@ -113,7 +110,10 @@ const Mint = () => {
               </button>
             </div>
           ) : (
-            <form className="flex flex-col gap-4" onSubmit={onSubmitIpfs}>
+            <form
+              className="flex flex-col gap-4 bg-red-300"
+              onSubmit={onSubmitIpfs}
+            >
               <input
                 className="btn-style px-2"
                 type="text"
@@ -131,7 +131,6 @@ const Mint = () => {
           )}
         </>
       )}
-      
     </>
   );
 };

@@ -12,6 +12,7 @@ import Mint from "./pages/Mint";
 import NftDetail from "./pages/NftDetail";
 import Event from "./pages/Event";
 import AdminPage from "./pages/Adminpage";
+import QR from "./pages/Qr";
 
 export const AppContext = createContext();
 
@@ -21,7 +22,7 @@ function App() {
 
   return (
     <div>
-      <AppContext.Provider value={{ temp , setTemp , account, setAccount }}>
+      <AppContext.Provider value={{ temp, setTemp, account, setAccount }}>
         <BrowserRouter>
           <div className="iphone">
             <StatusBar />
@@ -34,6 +35,7 @@ function App() {
               <Route path="/mint" element={<Mint />} />
               <Route path="/nftdetail" element={<NftDetail />} />
               <Route path="/event" element={<Event />} />
+              <Route path="/qr" element={<QR />} />
               <Route path="/adminpage" element={<AdminPage />} />
             </Routes>
             {account && <Footer />}
