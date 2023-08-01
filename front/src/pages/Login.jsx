@@ -31,7 +31,7 @@ const Login = () => {
       else{
       setAccount(response.data.user);
       navigate(`/main?address=${accounts[0]}`);
-    }
+      }
     } catch (error) {
       console.error(error);
     }

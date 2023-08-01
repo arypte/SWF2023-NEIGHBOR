@@ -21,8 +21,6 @@ const Main = () => {
 
     try {
 
-        console.log(    `${process.env.REACT_APP_BACKEND_URL}/nft/${account.adderss}`);
-
         const response = await axios.get(
           `${process.env.REACT_APP_BACKEND_URL}/nft/${account.address}`,
           {
@@ -33,6 +31,7 @@ const Main = () => {
         );
 
         setData(response.data);
+        console.log( response.data ) ;
         if( response.data.length < 3 ){
           setLevel( `https://github.com/arypte/swf_hackathon_project/blob/main/Images/Emblem/Black.png?raw=true` ) ;
         }
@@ -42,8 +41,6 @@ const Main = () => {
         else{
           setLevel( `https://github.com/arypte/swf_hackathon_project/blob/main/Images/Emblem/Gold.png?raw=true` ) ;
         }
-
-        console.log( response.data ) ;
 
     } 
     catch (error) {
@@ -89,7 +86,7 @@ const Main = () => {
         <div className="flex justify-center items-center mt-6 mb-6">
           <div className="grid grid-cols-2 gap-x-5 gap-y-6">
             { data?.map( (v,i) => {
-              return <NftBox key={i} idx={v.id} /> 
+              return <NftBox key={i} idx={v.tokenID} /> 
             } )}
           </div>
         </div>
