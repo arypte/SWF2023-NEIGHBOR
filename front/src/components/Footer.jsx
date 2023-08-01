@@ -11,7 +11,7 @@ const Footer = () => {
   const navigate = useNavigate();
 
   const onClickHome = () => {
-    navigate(`/main?address=${account}`);
+    navigate(`/main?address=${account.address}`);
   };
 
   const onClickList = () => {

@@ -64,7 +64,7 @@ const Main = () => {
           <div>Hi, Haechi, traveler!</div>
         </div>
         <div className="w-[70px] h-[70px] bg-neutral-500 rounded-3xl ml-4 relative">
-          엠블렘 박스
+          
           { level  && <img src= {`${level}`} ></img> }
           {/* <button
             onClick={onClickModal}
