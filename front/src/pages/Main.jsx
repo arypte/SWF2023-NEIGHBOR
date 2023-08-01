@@ -1,7 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 import { AppContext } from "../App";
 import { Link, useSearchParams } from "react-router-dom";
-import NoticeModal from "../components/NoticeModal";
 import axios from "axios";
 import NftBox from "../components/Nftbox";
 
@@ -93,10 +92,10 @@ const Main = () => {
           <div className="grid grid-cols-2 gap-x-5 gap-y-6">
             {data?.map((v, i) => {
               return (
-                <Link to = {`/nftdetail?id=${v.tokenID}`} key={i}  >
-                  <NftBox  idx={v.tokenID} />
+                <Link to={`/nftdetail?id=${v.tokenID}`} key={i}>
+                  <NftBox idx={v.tokenID} />
                 </Link>
-              )
+              );
             })}
           </div>
         </div>

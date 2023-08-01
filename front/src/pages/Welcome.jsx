@@ -1,15 +1,15 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const Welcome = () => {
   const images = [
-    "image-url-1.jpg",
-    "image-url-2.jpg",
-    "image-url-3.jpg",
-    // Add more image URLs as needed
+    "/images/Welcome/Welcome1.png",
+    "/images/Welcome/Welcome2.png",
+    "/images/Welcome/Welcome3.png",
   ];
 
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const navigate = useNavigate();
 
   const [isClick, setIsClick] = useState(false);
 
@@ -18,7 +18,11 @@ const Welcome = () => {
   };
 
   const onClickNext = () => {
-    console.log("다음이미지");
+    if (currentImageIndex === 2) {
+      setCurrentImageIndex(0);
+      navigate("/login");
+    }
+
     setCurrentImageIndex((prevIndex) => (prevIndex + 1) % images.length);
   };
 
@@ -29,7 +33,7 @@ const Welcome = () => {
       {isClick ? (
         <div className="min-h-screen flex flex-col items-center">
           <img
-            className="bg-red-300 w-[300px] h-[450px] mt-20"
+            className="w-fit h-[500px] mt-10"
             src={images[currentImageIndex]}
             alt="Slider Image"
             style={{ objectFit: "cover" }}

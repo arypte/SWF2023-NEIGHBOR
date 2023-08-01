@@ -8,7 +8,6 @@ import React, {
 import axios from "axios";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { AppContext } from "../App";
-import LoadingPage from "../components/Loading";
 
 const Mint = () => {
   const { account, web3, nft_c } = useContext(AppContext);
@@ -154,10 +153,9 @@ const Mint = () => {
   return (
     <>
       {isLoading ? (
-        // <div className="min-h-screen flex justify-center text-3xl font-bold pt-80">
-        //   Loading...
-        // </div>
-        <LoadingPage />
+        <div className="min-h-screen flex justify-center text-3xl font-bold pt-80">
+          Loading...
+        </div>
       ) : (
         <>
           {jsonHash && (
