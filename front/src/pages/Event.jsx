@@ -7,17 +7,16 @@ const Event = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [result, setResult] = useState("");
   const [check, setCheck] = useState(false);
-  const [data,setData] = useState();
+  const [data, setData] = useState();
 
   const get_Data = async () => {
     setIsLoading(true);
     try {
-
       const response = await axios.get(
         `${process.env.REACT_APP_BACKEND_URL}/raffle/`,
         {
           headers: {
-            'ngrok-skip-browser-warning': 'any',
+            "ngrok-skip-browser-warning": "any",
           },
           params: {
             isEnd: false,
@@ -32,10 +31,10 @@ const Event = () => {
     }
   };
 
-  useEffect( () => {
+  useEffect(() => {
     // console.log( 'test get data' ) ;
     get_Data();
-  } ,[] ) ;
+  }, []);
 
   const onSubmitChat = async (e) => {
     try {
@@ -68,35 +67,41 @@ const Event = () => {
     }
   };
   return (
-    <div className="min-h-screen flex flex-col items-center pt-4 bg-zinc-200">
-      <form className=" w-[300px] flex flex-col" onSubmit={onSubmitChat}>
+    <div className="min-h-screen flex flex-col items-center bg-zinc-200">
+      <form className=" w-[300px] flex gap-2 pt-4" onSubmit={onSubmitChat}>
         <input
           type="text"
           value={content}
           disabled={isLoading}
+          placeholder="Write Your Name"
           name="chat"
           onChange={(e) => setContent(e.target.value)}
-          className={`w-full  h-10 border-2 rounded-xl  p-4 border-gray-400/50 mt-5  shadow-lg `}
+          className={`w-full h-10 border-2 rounded-2xl text-sm font-bold  p-4 border-gray-400/50 shadow-lg `}
         ></input>
         <input
           type="submit"
           disabled={isLoading}
           className={`${
-            isLoading && content ? "검색중..." : ""
-          } w-full mt-4 font-bold  text-3x text-white bg-neutral-700 px-6 py-4 rounded-xl hover:bg-neutral-400 shadow-md`}
-          value={isLoading && content ? "검색중..." : " 이름 검색"}
+            isLoading && content ? "Translating..." : ""
+          } w-32 text-sm text-white bg-neutral-700 rounded-2xl hover:bg-neutral-400 shadow-md`}
+          value={isLoading && content ? "..." : "Translate"}
         />
       </form>
-      <div className=" text-center pt-5 text-md">
+      <div className=" text-center pt-5 text-md font-bold">
         {result && (
-          <div className="bg-white p-5 rounded-3xl">
+          <div className="px-5 py-2 rounded-3xl">
             {" "}
             Your Korean name is "{result}"{" "}
           </div>
         )}
       </div>
       {result && (
-        <TextToImage text={result} check={check} setCheck={setCheck} idx={data} />
+        <TextToImage
+          text={result}
+          check={check}
+          setCheck={setCheck}
+          idx={data}
+        />
       )}
     </div>
   );

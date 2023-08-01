@@ -8,21 +8,20 @@ const AdminPage = () => {
   const [winner, setWinner] = useState([]);
   const [n, setN] = useState();
   const [E, setE] = useState();
-  const { nft_c , web3 , account } = useContext(AppContext);
+  const { nft_c, web3, account } = useContext(AppContext);
 
   const [isLoading, setIsLoading] = useState(false);
-  const [ing , setIng] = useState(false) ;
+  const [ing, setIng] = useState(false);
 
   const imageRef = useRef(null);
   //   const [check, setCheck] = useState(false);
   const [selectedFont, setSelectedFont] = useState(); // Default font is Arial
   const [img, setImg] = useState();
   const [ipfsHash, setIpfsHash] = useState();
-  const [text, setText ] = useState() ; // event emit 에서 ke읽어오면됨
-//  text : ke
+  const [text, setText] = useState(); // event emit 에서 ke읽어오면됨
+  //  text : ke
 
   const textToImage = async () => {
-    
     const imageWidth = 800;
     const imageHeight = 500;
     const font_size = 100;
@@ -193,8 +192,8 @@ const AdminPage = () => {
       let idx = await nft_c.methods.Raffle_End(n, winner.length).call();
       idx = Number(idx);
 
-      console.log( idx , typeof idx ) ;
-      console.log( winner ) ;
+      console.log(idx, typeof idx);
+      console.log(winner);
 
       await axios.put(
         `${process.env.REACT_APP_BACKEND_URL}/raffle/${n}}/done`,
@@ -211,8 +210,8 @@ const AdminPage = () => {
         // setText( winner[ idx ].ko ) ;
       );
 
-      console.log( 'idx ok' ) ;
-      
+      console.log("idx ok");
+
       const response = await axios.get(
         `${process.env.REACT_APP_BACKEND_URL}/raffle/${n}`,
         {
@@ -230,16 +229,16 @@ const AdminPage = () => {
       const e_B = response.data.end_block;
 
       const a = await nft_c.getPastEvents("Raffle", {
-        filter: { _add : winner[ idx ]._add.toLowerCase() },
+        filter: { _add: winner[idx]._add.toLowerCase() },
         fromBlock: f_B,
         toBlock: e_B,
       });
 
       // console.log( a[0].returnValues ) ;
 
-      setSelectedFont( a[0].returnValues._font ) ;
-      setText( a[0].returnValues._ko_name ) ;
-      setIng( true ) ;
+      setSelectedFont(a[0].returnValues._font);
+      setText(a[0].returnValues._ko_name);
+      setIng(true);
 
       get_Data();
     }
@@ -288,10 +287,12 @@ const AdminPage = () => {
   }, []);
 
   return (
-    <div >
-    <div >
-      <form onSubmit={create}>
-        <button className="p-2 m-2">래플 생성</button>
+    <div className="min-h-screen flex flex-col justify-start items-center mt-64">
+      <form
+        className="w-40 font-bold text-center bg-neutral-900 text-white rounded-full hover:bg-neutral-700"
+        onSubmit={create}
+      >
+        <button className="py-4">래플 생성</button>
       </form>
 
       {isLoading ? (
@@ -302,7 +303,8 @@ const AdminPage = () => {
             <button
               key={i}
               onClick={() => RaffleEnd(v.id)}
-              className="raffle-end-button">
+              className="raffle-end-button w-40 font-bold text-center rounded-full bg-neutral-900 text-white hover:bg-neutral-700 mt-4 py-4"
+            >
               {v.id} {v.name} 래플 종료
             </button>
           );
@@ -310,7 +312,6 @@ const AdminPage = () => {
         })
       )}
     </div>
-  </div>
   );
 
   // 종료 버튼 누르면 textToImage 실행 시키는 버튼 1

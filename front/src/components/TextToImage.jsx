@@ -6,27 +6,27 @@ import { AppContext } from "../App";
 // Placeholder image URL
 // const PLACEHOLDER_IMAGE_URL = "https://example.com/placeholder-image.png";
 
-function TextToImage({ check, setCheck, text , idx }) {
+function TextToImage({ check, setCheck, text, idx }) {
   const imageRef = useRef(null);
   //   const [check, setCheck] = useState(false);
-  const { nft_c , account } = useContext(AppContext) ;
-  
+  const { nft_c, account } = useContext(AppContext);
+
   const [selectedFont, setSelectedFont] = useState(); // Default font is Arial
   const [img, setImg] = useState();
   const [ipfsHash, setIpfsHash] = useState();
-  const [check2 , setCheck2] = useState( true ) ;
+  const [check2, setCheck2] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
 
   const get_R_data = async () => {
     setIsLoading(true);
     console.log(idx);
     try {
-      console.log( `${process.env.REACT_APP_BACKEND_URL}/raffle/${idx}` ) ;
+      console.log(`${process.env.REACT_APP_BACKEND_URL}/raffle/${idx}`);
       const response = await axios.get(
         `${process.env.REACT_APP_BACKEND_URL}/raffle/${idx}`,
         {
           headers: {
-            'ngrok-skip-browser-warning': 'any',
+            "ngrok-skip-browser-warning": "any",
           },
         }
       );
@@ -34,13 +34,13 @@ function TextToImage({ check, setCheck, text , idx }) {
       const endchk = response.data.isEnd;
 
       if (endchk == true) {
-        console.log( 'none' ) ;
+        console.log("none");
       } else {
         const f_B = response.data.start_block; // fromBlock : 은 디비에서
-        const a = await nft_c.getPastEvents('Raffle', {
+        const a = await nft_c.getPastEvents("Raffle", {
           filter: { _idx: idx },
           fromBlock: f_B,
-          toBlock: 'latest',
+          toBlock: "latest",
         });
         for (const v of a) {
           const nowdata = v.returnValues._add.toLowerCase();
@@ -63,7 +63,7 @@ function TextToImage({ check, setCheck, text , idx }) {
     setIsLoading(true);
     try {
       await nft_c.methods
-        .Raffle_participate(idx,'a', text , selectedFont)
+        .Raffle_participate(idx, "a", text, selectedFont)
         .send({ from: account.address });
       get_R_data();
     } catch (error) {
@@ -73,10 +73,9 @@ function TextToImage({ check, setCheck, text , idx }) {
   };
 
   useEffect(() => {
-
-    if( idx ) {
-    get_R_data();
-  }
+    if (idx) {
+      get_R_data();
+    }
   }, [idx]);
 
   const textToImage = async () => {
@@ -184,24 +183,19 @@ function TextToImage({ check, setCheck, text , idx }) {
     // uploadToPinata();
   }, [img]);
 
-  
-
   //   useEffect(() => {
   //     // When the component mounts, show the placeholder image in the imageRef
   //     imageRef.current.src = PLACEHOLDER_IMAGE_URL;
   //   }, []);
 
   return (
-    <div className="mt-1 flex flex-col items-center">
-      <label className="text-lg font-bold" htmlFor="fontSelect">
-        Choose Font
-      </label>
+    <div className="mt-4 flex flex-col items-center">
       <select
-        className="mt-1 w-64 text-lg"
+        className="px-4 w-[300px] h-10 text-lg rounded-xl font-bold"
         id="fontSelect"
         onChange={handleFontChange}
       >
-        <option value="">선택 해주세요</option>
+        <option value="">Choose Font</option>
         <option value="SeoulHangangM">SeoulHangangM 한강체</option>
         <option value="SeoulNamsanM">SeoulNamsanM 남산체</option>
         <option value="Shilla_CultureB-Bold">
@@ -212,20 +206,25 @@ function TextToImage({ check, setCheck, text , idx }) {
       {selectedFont && (
         <button
           onClick={handleButtonClick}
-          className="w-40 h-10 rounded-3xl bg-neutral-700 text-white font-bold text-center hover:bg-neutral-500"
+          className="w-[300px] h-[60px] rounded-2xl bg-neutral-700 text-white font-bold text-center hover:bg-neutral-500"
         >
           Generate Image
         </button>
       )}
       <br />
-      {check == true && 
-        <div className = "flex flex-col items-center">
-        <img ref={imageRef} alt="Generated Image" />
-        { isLoading == false && check2 == true && 
-        <button className="w-40 h-10 rounded-3xl bg-neutral-700 text-white font-bold text-center hover:bg-neutral-500" onClick={onclickRaffle_participate}>apply</button>
-        }
+      {check == true && (
+        <div className="flex flex-col items-center mt-4">
+          <img ref={imageRef} alt="Generated Image" />
+          {isLoading == false && check2 == true && (
+            <button
+              className="mt-10 w-[300px] h-[60px] rounded-2xl bg-neutral-700 text-white font-bold text-center hover:bg-neutral-500"
+              onClick={onclickRaffle_participate}
+            >
+              Apply
+            </button>
+          )}
         </div>
-        }
+      )}
     </div>
   );
 }
