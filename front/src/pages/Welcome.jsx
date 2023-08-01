@@ -34,7 +34,7 @@ const Welcome = () => {
         <div className="min-h-screen flex flex-col justify-between items-center relative">
           <div className="flex justify-start h-full bg-slate-600">
             <img
-              className="mt-2 absolute w-[270px] p-4  top-0 left-0"
+              className="mt-2 absolute w-[270px] pl-10 pt-10  top-0 left-0"
               src={images[currentImageIndex]}
               alt="Slider Image"
               style={{ objectFit: "cover" }}
