@@ -3,13 +3,12 @@ import { AppContext } from "../App";
 import axios from "axios";
 
 const NftBox = (idx) => {
-  const { account, setAccount, web3, nft_c } = useContext(AppContext);
+  const { nft_c } = useContext(AppContext);
   const [data, setData] = useState();
   const [name, setName] = useState();
 
   const getData = async () => {
     try {
-      console.log(idx.idx);
       const URL = await nft_c.methods.tokenURI(idx.idx).call();
       const response = await axios.get(URL);
       setData(response.data.image);
