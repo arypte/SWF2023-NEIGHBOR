@@ -312,7 +312,7 @@ const AdminPage = () => {
         })
       )}
     </div>
-  );
+  ); 
 
   // 종료 버튼 누르면 textToImage 실행 시키는 버튼 1
   // 버튼 1 누르면 uploadToPinata 실생 시키는 버튼 2
