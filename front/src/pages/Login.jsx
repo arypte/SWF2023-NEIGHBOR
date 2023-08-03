@@ -1,7 +1,7 @@
-import React, { useContext, useEffect, useState } from "react";
-import { AppContext } from "../App";
-import { useNavigate } from "react-router-dom";
-import axios from "axios";
+import React, { useContext, useEffect, useState } from 'react';
+import { AppContext } from '../App';
+import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 const Login = () => {
   const { account, setAccount, setTemp } = useContext(AppContext);
@@ -10,14 +10,23 @@ const Login = () => {
   const onClickAccount = async () => {
     try {
       const accounts = await window.ethereum.request({
-        method: "eth_requestAccounts",
+        method: 'eth_requestAccounts',
+      });
+
+      await window.ethereum.request({
+        method: 'wallet_switchEthereumChain',
+        params: [
+          {
+            chainId: '0xaa36a7',
+          },
+        ],
       });
 
       const response = await axios.get(
         `${process.env.REACT_APP_BACKEND_URL}/user/${accounts[0]}`,
         {
           headers: {
-            "ngrok-skip-browser-warning": "any",
+            'ngrok-skip-browser-warning': 'any',
           },
         }
       );
@@ -26,7 +35,7 @@ const Login = () => {
 
       if (!response.data.ok) {
         setTemp(accounts[0]);
-        navigate("/register");
+        navigate('/register');
       } else {
         setAccount(response.data.user);
         navigate(`/main?address=${accounts[0]}`);
