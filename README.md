@@ -12,7 +12,6 @@
 ![캡처_2023_09_09_22_49_32_39](https://github.com/arypte/SWF2023-NEIGHBOR/assets/107535534/30fe89f3-5fd8-4145-9201-8849c34837b4)
 
 ## Project Image
-![캡처_2023_08_02_06_19_23_292](https://github.com/arypte/SWF2023-NEIGHBOR/assets/107535534/b1c4b7e9-2e26-4392-aaa8-600b72e91f77)
 ![캡처_2023_09_09_22_59_37_440](https://github.com/arypte/SWF2023-NEIGHBOR/assets/107535534/e244ff79-2086-4c3f-9cdf-b5b0ea0e64e5)
 ![캡처_2023_09_09_23_00_09_845](https://github.com/arypte/SWF2023-NEIGHBOR/assets/107535534/1f47ac59-c702-4109-8e04-8739ecd88d58)
 ![캡처_2023_09_09_23_00_25_519](https://github.com/arypte/SWF2023-NEIGHBOR/assets/107535534/cd1f0793-f3a6-461a-b464-f10dec7492ef)
